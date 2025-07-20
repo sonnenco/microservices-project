@@ -72,6 +72,11 @@ const Products = () => {
     return matchesCategory && matchesSearch
   })
 
+  {/* Enable filters pane to show on mobile interaction */}
+  const [showFilters, setShowFilters] = useState(false)
+
+  const toggleFilters = () => setShowFilters(!showFilters)
+
   return (
     <div className="flex flex-col mt-4 lg:flex-row lg:space-x-10">
       {/* Desktop filter */}
@@ -97,9 +102,31 @@ const Products = () => {
       <div className="">
         {/* Mobile filters */}
         <div className="block lg:hidden mb-4">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0">
+          <div className="flex flex-col sm:items-start sm:space-x-4 space-y-2 sm:space-y-0">
             <button
-              className="border rounded-lg px-4 py-2 bg-sky-500/90 text-white font-semibold w-full">FILTERS</button>
+              className="border rounded-lg px-4 py-2 bg-sky-500/90 text-white font-semibold w-full"
+              onClick={toggleFilters}
+            >
+            <div>
+              {!showFilters ? "FILTERS ↓" : "FILTERS ↑"}
+            </div>
+            </button>
+            {showFilters && (
+              <div className="mt-2 space-y-2">
+                {productCategories.map((category) => (
+                  <label className="flex items-center space-x-3" key={category}>
+                    <input
+                      className="w-5 h-5"
+                      type="checkbox"
+                      value={category}
+                      checked={selectedCategories.includes(category)}
+                      onChange={() => handleFilterChange(category)}
+                    />
+                    <span>{category}</span>
+                  </label>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
