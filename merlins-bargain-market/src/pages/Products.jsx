@@ -1,50 +1,70 @@
-import { use, useState } from "react"
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 import ProductCard from "../components/ProductCard"
 
 const Products = () => {
+  {/* Enable navigation to product detail pages */}
+  const navigate = useNavigate()
+
+  const handleCardClick = (product) => {
+    navigate(`/products/${product.id}`, {state: { product }})
+  }
+  
   const products = [
     {
       id: "1",
       name: "Amateur Wand",
       price: "25",
       category: "Wands",
-      image: "/amateur-wand.png"
+      image: "/amateur-wand.png",
+      description: "Everyone has to start somewhere! Capable of casting beginner-level spells.",
+      disclaimer: "Casting spells of intermediate difficult or above may result in an explosive blast and complaints from neighbors.  Please consult your spell encyclopedia for more information."
     },
     {
       id: "2",
       name: "Love Potion",
       price: "10",
       category: "Potions",
-      image: "/love-potion.png"
+      image: "/love-potion.png",
+      description: "It's difficult to find love in modern times.  Why not make it easier?  Merlin's love potion can help.",
+      disclaimer: "Soulmate may not be human.  Known to match-make with dragons and goblins."
     },
     {
       id: "3",
       name: "Infinite Pocket Robes",
       price: "30",
       category: "Robes",
-      image: "/infinite-pocket-robes.png"
+      image: "/infinite-pocket-robes.png",
+      description: "Are you out exploring for mystical items, but find your pockets full? No more! Infinite pocket robes guarantee that you will always have more space.",
+      disclaimer: "It's up to you to keep track of what you put in which pocket.  You may find items several centuries later."
     },
     {
       id: "4",
       name: "Cooking Spellbook",
       price: "20",
       category: "Books",
-      image: "/cooking-spellbook.png"
+      image: "/cooking-spellbook.png",
+      description: "Tired of wasting away in the kitchen after a long day? Never fear, Merlin has the solution! This spellbook teaches a variety of incancations so your pots and pans can do all the work themselves.",
+      disclaimer: "Spells currently limited to ballpark food.  Merlin is in his hot dog era."
     },
     {
       id: "5",
       name: "Crystal of Luck",
       price: "15",
       category: "Clearance",
-      image: "/crystal-of-luck.png"
+      image: "/crystal-of-luck.png",
+      description: "If you're feeling a bit unlucky, then this is the product for you! Merlin's powerful luck crystals are guaranteed to improve your quality of life!",
+      disclaimer: "Will only improve luck for minor life events, such as finding loose change in your coach or a lost sock."
     },
     {
       id: "6",
       name: "Parking Space Crystal Ball",
       price: "5",
       category: "Clearance",
-      image: "/parking-space-crystal-ball.png"
+      image: "/parking-space-crystal-ball.png",
+      description: "Sourced from the finest mines, this crystal ball has been enchanted by Merlin himself to glow when an open parking spot is within a 100 foot radius.",
+      disclaimer: "Product may induce hunger and interfere with FM radio.  Merlin's Bargain Market is not liable for these effects."
     }
   ]
   
@@ -141,7 +161,7 @@ const Products = () => {
           />
           <div className="grid grid-cols-2 md:grid-cols-3 w-full gap-4">
             {filteredProducts.map((product) => (
-              <ProductCard product={product}/>
+              <ProductCard product={product} onClick={() => handleCardClick(product)}/>
             ))}
           </div>
         </div>

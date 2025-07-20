@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, onClick }) => {
+  
   return (
-    <div className="bg-white rounded-lg shadow hover:shadow-lg transition p-4">
+    <div className="bg-white rounded-lg shadow hover:shadow-lg transition p-4" onClick={onClick}>
       <Link className="block">
         <img src={product.image} className="w-full h-60 object-cover rounded"/>
         <div className="mt-2">
