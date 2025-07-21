@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useLocation } from "react-router-dom"
+import AddToCart from '../components/AddToCart'
 
 const ProductDetails = () => {
     const location = useLocation()
@@ -21,6 +22,7 @@ const ProductDetails = () => {
                     <div>{product.description}</div>
                     <div className="italic">Disclaimer: {product.disclaimer}</div>
                 </div>
+                <AddToCart/>
             </div>
         </div>
     )

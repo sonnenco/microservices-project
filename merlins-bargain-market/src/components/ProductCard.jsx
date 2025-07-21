@@ -1,16 +1,18 @@
-import { Link } from 'react-router-dom'
+import AddToCart from './AddToCart'
 
 const ProductCard = ({ product, onClick }) => {
-  
   return (
     <div className="bg-white rounded-lg shadow hover:shadow-lg transition p-4" onClick={onClick}>
-      <Link className="block">
+      <div className="block">
         <img src={product.image} className="w-full h-60 object-cover rounded"/>
         <div className="mt-2">
           <h3 className="font-semibold text-gray-800">{product.name}</h3>
-          <p className="text-sm font-bold mt-1">${product.price}</p>
+          <div className="flex flex-row justify-between mt-2 items-center">
+            <p className="text-sm font-bold">${product.price}</p>
+            <AddToCart onClick={((e) => e.stopPropagation())}/>
+          </div>
         </div>
-      </Link>
+      </div>
     </div>
   )
 }
