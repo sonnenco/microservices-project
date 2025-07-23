@@ -11,16 +11,52 @@ import Products from './pages/Products'
 import Cart from './pages/Cart'
 import ProductDetails from './pages/ProductDetails'
 
-function App() {
+function App() {  
+  const [shoppingCart, setShoppingCart] = useState({})
+  const [shoppingCartQuantity, setShoppingCartQuantity] = useState(0)
+
+  const handleAddToShoppingCart = (product) => {    
+    setShoppingCart(prevCart => {
+      if (prevCart[product.id]) {
+        console.log(`${product.name} is already in the cart.`)
+        console.log(`This is the current cart: ${JSON.stringify(shoppingCart, null, 2)}`)
+        return prevCart
+      }
+      
+      return {
+        ...prevCart, [product.id]: product
+      }
+    })
+  }
+
+  const handleDeleteFromShoppingCart = (product) => {
+    setShoppingCart(prevCart => {
+      console.log(`Removing ${product.name} from the cart.`)
+      prevCart.filter((item) => item.id !== product.id)
+    })
+  }
+
   return (
     <div className="flex flex-col max-w-screen-xl w-full mx-auto px-4 md:px-10">
       <Router>
         <Navigation />
         <Routes>
-          <Route path="/" element={<Home />}/>
-          <Route path="/products" element={<Products/>}/>
-          <Route path="/cart" element={<Cart/>}/>
-          <Route path="/products/:productId" element={<ProductDetails/>}/>
+          <Route
+            path="/"
+            element={<Home />}
+          />
+          <Route
+            path="/products"
+            element={<Products handleAddToShoppingCart={handleAddToShoppingCart}/>}
+          />
+          <Route
+            path="/cart"
+            element={<Cart shoppingCart={shoppingCart}/>}
+          />
+          <Route
+            path="/products/:productId"
+            element={<ProductDetails/>}
+          />
         </Routes>
       </Router>
 

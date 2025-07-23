@@ -1,13 +1,11 @@
-import { use, useState } from "react"
+import { useState } from "react"
 
-const Cart = () => {
-  
-  const [shoppingCart, setShoppingCart] = useState({})
-  
+const Cart = (shoppingCart) => {
+
   return (
-    <div>
-      Cart
-    </div>
+    <pre>
+      {JSON.stringify(shoppingCart, null, 2)}
+    </pre>
   )
 }
 

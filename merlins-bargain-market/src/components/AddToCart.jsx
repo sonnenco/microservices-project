@@ -1,15 +1,17 @@
 import { useState } from "react"
 
-const AddToCart = () => {
+const AddToCart = ({product, handleAddToShoppingCart}) => {
     const [productQuantity, setProductQuantity] = useState(1)
   
     const incrementQuantity = () => {
+        console.log("Increasing item quantity.")
         if (productQuantity < 5) {
             setProductQuantity(prev => prev + 1)
         }
     }
 
     const decrementQuantity = () => {
+        console.log("Decreasing item quantity.")
         if (productQuantity > 1) {
             setProductQuantity(prev => prev - 1)
         }
@@ -22,7 +24,19 @@ const AddToCart = () => {
                 <span className="">{productQuantity}</span>
                 <button className="" type="button" onClick={(e) => { e.stopPropagation(); incrementQuantity(); }}>+</button>
             </div>
-            <button className="bg-sky-500/90 text-white px-2 py-1" type="button" onClick={(e) => e.stopPropagation()}>Add to cart</button>
+            <button
+                className="bg-sky-500/90 text-white px-2 py-1"
+                type="button"
+                onClick={ (e) => { e.stopPropagation(); handleAddToShoppingCart({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: productQuantity
+                }); }}
+            >
+                Add to cart
+            </button>
         </div>
   )
 }
