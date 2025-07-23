@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom'
 import { useLocation } from "react-router-dom"
 import AddToCart from '../components/AddToCart'
 
-const ProductDetails = () => {
+const ProductDetails = ({ handleAddToShoppingCart }) => {
+    // Receive product data from Product.jsx
     const location = useLocation()
-    const product = location.state?.product
+    const { product } = location.state
 
     return (
         <div className="flex flex-col my-10 items-center md:flex-row">
@@ -22,7 +23,7 @@ const ProductDetails = () => {
                     <div>{product.description}</div>
                     <div className="italic">Disclaimer: {product.disclaimer}</div>
                 </div>
-                <AddToCart/>
+                <AddToCart product={product} handleAddToShoppingCart={handleAddToShoppingCart}/>
             </div>
         </div>
     )

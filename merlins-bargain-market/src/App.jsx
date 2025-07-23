@@ -55,7 +55,7 @@ function App() {
           />
           <Route
             path="/products/:productId"
-            element={<ProductDetails/>}
+            element={<ProductDetails handleAddToShoppingCart={handleAddToShoppingCart}/>}
           />
         </Routes>
       </Router>
