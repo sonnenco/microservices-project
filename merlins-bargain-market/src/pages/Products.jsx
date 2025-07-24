@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 import ProductCard from "../components/ProductCard"
 
 const Products = ({ handleAddToShoppingCart }) => {
-  {/* Enable navigation to product detail pages */}
+  // Enable navigation to product detail pages
   const navigate = useNavigate()
 
   const handleCardClick = (product) => {
@@ -70,7 +70,7 @@ const Products = ({ handleAddToShoppingCart }) => {
   
   const productCategories = ["Wands", "Potions", "Robes", "Books", "Clearance"]
 
-  {/* Enable filtering and searching */}
+  // Enable filtering and searching 
   const [selectedCategories, setSelectedCategories] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
 
@@ -92,7 +92,7 @@ const Products = ({ handleAddToShoppingCart }) => {
     return matchesCategory && matchesSearch
   })
 
-  {/* Enable filters pane to show on mobile interaction */}
+  // Enable filters pane to show on mobile interaction
   const [showFilters, setShowFilters] = useState(false)
 
   const toggleFilters = () => setShowFilters(!showFilters)

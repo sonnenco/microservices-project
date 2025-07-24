@@ -1,11 +1,20 @@
 import { useState } from "react"
 
-const Cart = (shoppingCart) => {
+// Import components
+import CartItemCard from "../components/CartItemCard"
 
+const Cart = (shoppingCart) => {
   return (
-    <pre>
-      {JSON.stringify(shoppingCart, null, 2)}
-    </pre>
+    <div>
+      <div className="my-10">
+        {Object.entries(shoppingCart).map(([outerId, outer]) => 
+          Object.entries(outer).map(([productId, product]) => {
+            console.log("Cart.jsx:", product)
+            return <CartItemCard key={productId} product={product}/>
+          }) 
+        )}
+      </div>
+    </div>
   )
 }
 
