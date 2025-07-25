@@ -13,25 +13,33 @@ import ProductDetails from './pages/ProductDetails'
 
 function App() {  
   const [shoppingCart, setShoppingCart] = useState({})
+  const [cartTotal, setCartTotal] = useState(0.00)
 
   const handleAddToShoppingCart = (product) => {    
     setShoppingCart(prevCart => {
       if (prevCart[product.id]) {
-        //console.log(`${product.name} is already in the cart.`)
-        //console.log(`This is the current cart: ${JSON.stringify(shoppingCart, null, 2)}`)
         return prevCart
       }
-      
       return {
         ...prevCart, [product.id]: product
-      }
+    }})
+    setCartTotal(prevCartTotal => {
+      return prevCartTotal + (product.price * product.quantity)
     })
   }
 
-  const handleDeleteFromShoppingCart = (productId) => {
+  const handleDeleteFromShoppingCart = (product) => {
     const newShoppingCart = { ...shoppingCart }
-    delete newShoppingCart[productId]
+    delete newShoppingCart[product.id]
     setShoppingCart(newShoppingCart)
+    setCartTotal(prevCartTotal => {
+      return prevCartTotal - (product.price * product.quantity)
+    })
+  }
+
+  const handleDeleteAllFromShoppingCart = () => {
+    setShoppingCart({})
+    setCartTotal(0)
   }
 
   return (
@@ -49,7 +57,7 @@ function App() {
           />
           <Route
             path="/cart"
-            element={<Cart shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} handleDeleteFromShoppingCart={handleDeleteFromShoppingCart}/>}
+            element={<Cart shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} handleDeleteFromShoppingCart={handleDeleteFromShoppingCart} handleDeleteAllFromShoppingCart={handleDeleteAllFromShoppingCart} cartTotal={cartTotal} setCartTotal={setCartTotal}/>}
           />
           <Route
             path="/products/:productId"

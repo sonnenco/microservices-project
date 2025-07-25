@@ -1,34 +1,56 @@
+import { Link } from "react-router-dom"
+
 // Import components
 import CartItemCard from "../components/CartItemCard"
 
-const Cart = ({ shoppingCart, setShoppingCart, handleDeleteFromShoppingCart }) => {
+const Cart = ({ shoppingCart, setShoppingCart, handleDeleteFromShoppingCart, handleDeleteAllFromShoppingCart, cartTotal, setCartTotal }) => {
 
-  const incrementQuantity = (productId) => {
+  const incrementQuantity = (product) => {   
     setShoppingCart((prevCart) => {
-      const product = prevCart[productId]
+      const productObj = prevCart[product.id]
       
-      if (product.quantity === 5) return prevCart
-      
-      return {...prevCart, [productId]: {
-        ...product, quantity: product.quantity + 1
-  }}})}
+      if (productObj.quantity === 5) return prevCart
 
-  const decrementQuantity = (productId) => {
+      return {...prevCart, [product.id]: {
+        ...product, quantity: product.quantity + 1}
+      }}
+    )
+    setCartTotal(prevCartTotal => {
+      console.log("Prev cart total:", prevCartTotal)
+      return prevCartTotal + product.price
+    })
+  }
+
+  const decrementQuantity = (product) => {    
     setShoppingCart((prevCart) => {
-      const product = prevCart[productId]
+      const productObj = prevCart[product.id]
       
-      if (product.quantity === 1) return prevCart
+      if (productObj.quantity === 1) return prevCart
 
-      return {...prevCart, [productId]: {
-        ...product, quantity: product.quantity - 1
-  }}})}
+      return {...prevCart, [product.id]: {
+        ...product, quantity: product.quantity - 1}
+      }}
+    )
+    setCartTotal(prevCartTotal => {
+      console.log("Prev cart total:", prevCartTotal)
+      return prevCartTotal - product.price
+    })
+  }
 
   return (
-    <div>
-      <div className="my-10">
+    <div className="flex flex-row my-10">
+      <div className="w-7/10 flex flex-col">
+        <button className="bg-sky-500/90 text-white font-semibold px-2 py-2 rounded-md shadow hover:bg-sky-100/90 hover:text-sky-500/90 transition" type="button" onClick={(e) => { e.stopPropagation(); handleDeleteAllFromShoppingCart(); }}>🗑 Remove all items from the cart</button>
         {Object.entries(shoppingCart).map(([productId, product]) => (
           <CartItemCard key={productId} product={product} incrementQuantity={incrementQuantity} decrementQuantity={decrementQuantity} handleDeleteFromShoppingCart={handleDeleteFromShoppingCart}/>
         ))}
+      </div>
+      <div className="flex flex-col w-3/10 bg-gray-100 rounded-lg items-center ml-10 px-6 space-y-10 max-h-130 shadow-lg">
+        <div className="my-10 text-xl font-bold">Order Total: ${cartTotal.toFixed(2)}</div>
+        <div className="border w-full"/>
+        <div>"Shipping is free - my enchanted parcels will fly straight to your delivery address!" - Merlin</div>
+        <div className="italic">Disclaimer: Merlin's Bargain Market does not offer refunds based on the shipment's arrived condition.  Enchanted shipments are known to fly through storms and tears in the space-time-continuum.</div>
+        <Link className="bg-sky-500/90 text-white font-semibold px-2 py-1 rounded-md my-4 hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow">Proceed to checkout</Link>
       </div>
     </div>
   )

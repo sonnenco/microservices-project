@@ -25,15 +25,17 @@ const AddToCart = ({product, handleAddToShoppingCart}) => {
                 <button className="" type="button" onClick={(e) => { e.stopPropagation(); incrementQuantity(); }}>+</button>
             </div>
             <button
-                className="bg-sky-500/90 text-white px-2 py-1"
+                className="bg-sky-500/90 text-white px-2 py-1 hover:bg-sky-100/90 hover:text-sky-500/90 transition"
                 type="button"
-                onClick={ (e) => { e.stopPropagation(); handleAddToShoppingCart({
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    image: product.image,
-                    quantity: productQuantity
-                }); }}
+                onClick={ (e) => {e.stopPropagation()
+                    handleAddToShoppingCart({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                        quantity: productQuantity
+                    })
+                }}
             >
                 Add to cart
             </button>

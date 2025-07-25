@@ -15,7 +15,7 @@ const Products = ({ handleAddToShoppingCart }) => {
     {
       id: "1",
       name: "Amateur Wand",
-      price: "25",
+      price: 25.00,
       category: "Wands",
       image: "/amateur-wand.png",
       description: "Everyone has to start somewhere! Capable of casting beginner-level spells.",
@@ -24,7 +24,7 @@ const Products = ({ handleAddToShoppingCart }) => {
     {
       id: "2",
       name: "Love Potion",
-      price: "10",
+      price: 10.00,
       category: "Potions",
       image: "/love-potion.png",
       description: "It's difficult to find love in modern times.  Why not make it easier?  Merlin's love potion can help.",
@@ -33,7 +33,7 @@ const Products = ({ handleAddToShoppingCart }) => {
     {
       id: "3",
       name: "Infinite Pocket Robes",
-      price: "30",
+      price: 30.00,
       category: "Robes",
       image: "/infinite-pocket-robes.png",
       description: "Are you out exploring for mystical items, but find your pockets full? No more! Infinite pocket robes guarantee that you will always have more space.",
@@ -42,7 +42,7 @@ const Products = ({ handleAddToShoppingCart }) => {
     {
       id: "4",
       name: "Cooking Spellbook",
-      price: "20",
+      price: 20.00,
       category: "Books",
       image: "/cooking-spellbook.png",
       description: "Tired of wasting away in the kitchen after a long day? Never fear, Merlin has the solution! This spellbook teaches a variety of incancations so your pots and pans can do all the work themselves.",
@@ -51,7 +51,7 @@ const Products = ({ handleAddToShoppingCart }) => {
     {
       id: "5",
       name: "Crystal of Luck",
-      price: "15",
+      price: 15.00,
       category: "Clearance",
       image: "/crystal-of-luck.png",
       description: "If you're feeling a bit unlucky, then this is the product for you! Merlin's powerful luck crystals are guaranteed to improve your quality of life!",
@@ -60,7 +60,7 @@ const Products = ({ handleAddToShoppingCart }) => {
     {
       id: "6",
       name: "Parking Space Crystal Ball",
-      price: "5",
+      price: 5.00,
       category: "Clearance",
       image: "/parking-space-crystal-ball.png",
       description: "Sourced from the finest mines, this crystal ball has been enchanted by Merlin himself to glow when an open parking spot is within a 100 foot radius.",
