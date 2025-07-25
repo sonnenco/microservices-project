@@ -13,13 +13,12 @@ import ProductDetails from './pages/ProductDetails'
 
 function App() {  
   const [shoppingCart, setShoppingCart] = useState({})
-  const [shoppingCartQuantity, setShoppingCartQuantity] = useState(0)
 
   const handleAddToShoppingCart = (product) => {    
     setShoppingCart(prevCart => {
       if (prevCart[product.id]) {
-        console.log(`${product.name} is already in the cart.`)
-        console.log(`This is the current cart: ${JSON.stringify(shoppingCart, null, 2)}`)
+        //console.log(`${product.name} is already in the cart.`)
+        //console.log(`This is the current cart: ${JSON.stringify(shoppingCart, null, 2)}`)
         return prevCart
       }
       
@@ -29,11 +28,10 @@ function App() {
     })
   }
 
-  const handleDeleteFromShoppingCart = (product) => {
-    setShoppingCart(prevCart => {
-      console.log(`Removing ${product.name} from the cart.`)
-      prevCart.filter((item) => item.id !== product.id)
-    })
+  const handleDeleteFromShoppingCart = (productId) => {
+    const newShoppingCart = { ...shoppingCart }
+    delete newShoppingCart[productId]
+    setShoppingCart(newShoppingCart)
   }
 
   return (
@@ -51,7 +49,7 @@ function App() {
           />
           <Route
             path="/cart"
-            element={<Cart shoppingCart={shoppingCart}/>}
+            element={<Cart shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} handleDeleteFromShoppingCart={handleDeleteFromShoppingCart}/>}
           />
           <Route
             path="/products/:productId"
