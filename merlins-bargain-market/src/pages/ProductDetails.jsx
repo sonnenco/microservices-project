@@ -10,7 +10,7 @@ const ProductDetails = ({ handleAddToShoppingCart }) => {
     return (
         <div className="flex flex-col my-10 items-center md:flex-row">
             <div className="w-auto space-y-6 md:w-1/2">
-                <Link className="flex items-center justify-center w-12 rounded-full object-center px-4 py-2 bg-sky-500/90 text-white font-semibold" to="/products">
+                <Link className="flex items-center justify-center w-12 rounded-full object-center px-4 py-2 bg-sky-500/90 text-white font-semibold hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow" to="/products">
                     <span className="text-2xl">←</span>
                 </Link>
                 <img src={product.image} className="h-130 w-130 object-cover rounded"/>

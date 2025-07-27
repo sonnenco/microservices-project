@@ -10,6 +10,7 @@ import Home from './pages/Home'
 import Products from './pages/Products'
 import Cart from './pages/Cart'
 import ProductDetails from './pages/ProductDetails'
+import Checkout from './pages/Checkout'
 
 function App() {  
   const [shoppingCart, setShoppingCart] = useState({})
@@ -63,11 +64,15 @@ function App() {
             path="/products/:productId"
             element={<ProductDetails handleAddToShoppingCart={handleAddToShoppingCart}/>}
           />
+          <Route
+            path="/checkout"
+            element={<Checkout shoppingCart={shoppingCart} cartTotal={cartTotal}/>}
+          />
         </Routes>
       </Router>
 
       <footer className="text-center my-4 pt-2 border-t-1 italic">
-        <div>Lightly sketched in Figma and built using React + Tailwind CSS</div>
+        <div>Mocked in Figma and built using React + Tailwind CSS</div>
         <div className="mt-2">Colin Sonnenberg 2025</div>
       </footer>
     </div>

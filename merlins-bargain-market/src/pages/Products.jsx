@@ -119,7 +119,7 @@ const Products = ({ handleAddToShoppingCart }) => {
       </div>
 
       {/* Main page content */}
-      <div className="">
+      <div>
         {/* Mobile filters */}
         <div className="block lg:hidden mb-4">
           <div className="flex flex-col sm:items-start sm:space-x-4 space-y-2 sm:space-y-0">
