@@ -4,7 +4,7 @@ import { useState } from "react"
 // Import components
 import CheckoutItemCard from "../components/CheckoutItemCard"
 
-const Checkout = ({ shoppingCart, cartTotal }) => {
+const Checkout = ({ shoppingCart, cartTotal, setOnConfirmationScreen }) => {
     const [hideShipping, setHideShipping] = useState(false)
   
     const handleCheckboxChange = (e) => {
@@ -209,7 +209,7 @@ const Checkout = ({ shoppingCart, cartTotal }) => {
                 </div>
                 )}
             </form>
-            <Link className="bg-sky-500/90 text-white font-semibold px-4 py-2 rounded-md my-2 hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow">Place order</Link>
+            <Link className="bg-sky-500/90 text-white font-semibold px-4 py-2 rounded-md my-2 hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow" to="/checkout/confirmation" onClick={setOnConfirmationScreen}>Place order</Link>
         </div>
         <div className="w-1/2 bg-gray-100 shadow-lg mx-4 p-8 rounded-lg">
             {Object.entries(shoppingCart).map(([productId, product]) => (
