@@ -16,7 +16,7 @@ const Checkout = ({ shoppingCart, cartTotal, setOnConfirmationScreen }) => {
         <Link className="flex items-center justify-center h-10 w-10 rounded-full object-center px-4 py-2 bg-sky-500/90 text-white font-semibold hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow" to="/cart">
             <span className="text-2xl">←</span>
         </Link>
-        <div className="w-1/2 bg-gray-100 shadow-lg mx-4 p-8 rounded-lg">
+        <div className="flex flex-col w-1/2 bg-gray-100 shadow-lg mx-4 p-8 rounded-lg">
             <div className="mb-4 italic">
                 Disclaimer: Payment details are not retained, validated or charged as this is a project for a university course.  It is not a requirement to input payment, billing or shipping details on this page to proceed.
             </div>
@@ -209,7 +209,7 @@ const Checkout = ({ shoppingCart, cartTotal, setOnConfirmationScreen }) => {
                 </div>
                 )}
             </form>
-            <Link className="bg-sky-500/90 text-white font-semibold px-4 py-2 rounded-md my-2 hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow" to="/checkout/confirmation" onClick={setOnConfirmationScreen}>Place order</Link>
+            <Link className="bg-sky-500/90 text-white font-semibold px-4 py-2 rounded-md my-4 text-center hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow" to="/checkout/confirmation" onClick={setOnConfirmationScreen}>Place order</Link>
         </div>
         <div className="w-1/2 bg-gray-100 shadow-lg mx-4 p-8 rounded-lg">
             {Object.entries(shoppingCart).map(([productId, product]) => (
