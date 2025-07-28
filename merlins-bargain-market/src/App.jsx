@@ -17,6 +17,7 @@ function App() {
   const [shoppingCart, setShoppingCart] = useState({})
   const [cartTotal, setCartTotal] = useState(0.00)
   const [onConfirmationScreen, setOnConfirmationScreen] = useState(false)
+  const [hideCheckoutButton, setHideCheckoutButton] = useState(true)
 
   const handleAddToShoppingCart = (product) => {    
     setShoppingCart(prevCart => {
@@ -29,6 +30,7 @@ function App() {
     setCartTotal(prevCartTotal => {
       return prevCartTotal + (product.price * product.quantity)
     })
+    setHideCheckoutButton(false)
   }
 
   const handleDeleteFromShoppingCart = (product) => {
@@ -43,6 +45,7 @@ function App() {
   const handleDeleteAllFromShoppingCart = () => {
     setShoppingCart({})
     setCartTotal(0)
+    setHideCheckoutButton(true)
   }
 
   return (
@@ -60,7 +63,7 @@ function App() {
           />
           <Route
             path="/cart"
-            element={<Cart shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} handleDeleteFromShoppingCart={handleDeleteFromShoppingCart} handleDeleteAllFromShoppingCart={handleDeleteAllFromShoppingCart} cartTotal={cartTotal} setCartTotal={setCartTotal}/>}
+            element={<Cart shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} handleDeleteFromShoppingCart={handleDeleteFromShoppingCart} handleDeleteAllFromShoppingCart={handleDeleteAllFromShoppingCart} cartTotal={cartTotal} setCartTotal={setCartTotal} hideCheckoutButton={hideCheckoutButton}/>}
           />
           <Route
             path="/products/:productId"

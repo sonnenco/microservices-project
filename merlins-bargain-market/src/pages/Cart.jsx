@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 // Import components
 import CartItemCard from "../components/CartItemCard"
 
-const Cart = ({ shoppingCart, setShoppingCart, handleDeleteFromShoppingCart, handleDeleteAllFromShoppingCart, cartTotal, setCartTotal }) => {
+const Cart = ({ shoppingCart, setShoppingCart, handleDeleteFromShoppingCart, handleDeleteAllFromShoppingCart, cartTotal, setCartTotal, hideCheckoutButton }) => {
 
   const incrementQuantity = (product) => {   
     setShoppingCart((prevCart) => {
@@ -49,8 +49,10 @@ const Cart = ({ shoppingCart, setShoppingCart, handleDeleteFromShoppingCart, han
           <div className="my-10 text-xl font-bold">Order Total: ${cartTotal.toFixed(2)}</div>
           <div className="border w-full"/>
           <div>"Shipping is free - my enchanted parcels will fly straight to your delivery address!" - Merlin</div>
-          <div className="italic">Disclaimer: Merlin's Bargain Market does not offer refunds based on the shipment's arrived condition.  Enchanted shipments are known to fly through storms and tears in the space-time-continuum.</div>
-          <Link className="bg-sky-500/90 text-white font-semibold px-2 py-1 rounded-md my-4 hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow" to="/checkout">Proceed to checkout</Link>
+          <div className="italic mb-10">Disclaimer: Merlin's Bargain Market does not offer refunds based on the shipment's arrived condition.  Enchanted shipments are known to fly through storms and tears in the space-time-continuum.</div>
+          {!hideCheckoutButton && (
+            <Link className="bg-sky-500/90 text-white font-semibold px-2 py-1 rounded-md my-4 hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow" to="/checkout">Proceed to checkout</Link>
+          )}
         </div>
       </div>
   )
