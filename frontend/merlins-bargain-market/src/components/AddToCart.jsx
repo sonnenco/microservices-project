@@ -1,11 +1,11 @@
 import { useState } from "react"
 
-const AddToCart = ({product, handleAddToShoppingCart}) => {
+const AddToCart = ({product, handleAddToShoppingCart, stock}) => {
     const [productQuantity, setProductQuantity] = useState(1)
   
     const incrementQuantity = () => {
         console.log("Increasing item quantity.")
-        if (productQuantity < 5) {
+        if (productQuantity < stock) {
             setProductQuantity(prev => prev + 1)
         }
     }

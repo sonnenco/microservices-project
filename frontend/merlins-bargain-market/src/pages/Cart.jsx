@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 
+
 // Import components
 import CartItemCard from "../components/CartItemCard"
 
@@ -8,8 +9,6 @@ const Cart = ({ shoppingCart, setShoppingCart, handleDeleteFromShoppingCart, han
   const incrementQuantity = (product) => {   
     setShoppingCart((prevCart) => {
       const productObj = prevCart[product.id]
-      
-      if (productObj.quantity === 5) return prevCart
 
       return {...prevCart, [product.id]: {
         ...product, quantity: product.quantity + 1}

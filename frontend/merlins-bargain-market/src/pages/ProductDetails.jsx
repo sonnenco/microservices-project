@@ -1,11 +1,34 @@
-import { Link } from 'react-router-dom'
-import { useLocation } from "react-router-dom"
+import { Link, useLocation } from 'react-router-dom'
 import AddToCart from '../components/AddToCart'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const ProductDetails = ({ handleAddToShoppingCart }) => {
     // Receive product data from Product.jsx
     const location = useLocation()
     const { product } = location.state
+
+    // Load product stock data from microservice
+    const [stock, setStock] = useState(null)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const readStock = async () => {
+        try {
+            const response = await axios.get(`http://localhost:40599/microservices/product-stock/${product.id}`)
+            console.log("response: ", response)
+            setStock(response.data)
+        }
+        catch (error) {
+            console.error("Failed to retrieve product stock:", error)
+            setStock("N/A")
+        }
+        finally {
+            setLoading(false)
+        }
+        }
+        readStock()
+    }, [product.id])
 
     return (
         <div className="flex flex-col my-10 items-center md:flex-row">
@@ -19,11 +42,12 @@ const ProductDetails = ({ handleAddToShoppingCart }) => {
                 <div className="text-4xl font-semibold">{product.name}</div>
                 <div className="text-2xl">${product.price}</div>
                 <div className="text-xl">{product.category}</div>
+                <div className="text-xl">Stock: {stock === null ? "Loading..." : stock}</div>
                 <div className="text-lg space-y-4">
                     <div>{product.description}</div>
                     <div className="italic">Disclaimer: {product.disclaimer}</div>
                 </div>
-                <AddToCart product={product} handleAddToShoppingCart={handleAddToShoppingCart}/>
+                <AddToCart product={product} handleAddToShoppingCart={handleAddToShoppingCart} stock={stock}/>
             </div>
         </div>
     )

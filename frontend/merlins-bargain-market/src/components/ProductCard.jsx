@@ -34,7 +34,7 @@ const ProductCard = ({ product, onClick, handleAddToShoppingCart }) => {
           <p>Stock: {stock === null ? "Loading..." : stock}</p>
           <div className="flex flex-row justify-between mt-2 items-center">
             <p className="text-sm font-bold">${product.price}</p>
-            <AddToCart product={product} onClick={((e) => e.stopPropagation())} handleAddToShoppingCart={handleAddToShoppingCart}/>
+            <AddToCart product={product} onClick={((e) => e.stopPropagation())} handleAddToShoppingCart={handleAddToShoppingCart} stock={stock}/>
           </div>
         </div>
       </div>
