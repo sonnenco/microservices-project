@@ -1,12 +1,27 @@
 import { Link } from "react-router-dom"
 import { useState } from "react"
+import axios from "axios"
 
 // Import components
 import CheckoutItemCard from "../components/CheckoutItemCard"
 
 const Checkout = ({ shoppingCart, cartTotal, setOnConfirmationScreen }) => {
+    const handleStockUpdate = async () => {
+        for (const [productId, details] of Object.entries(shoppingCart)) {
+            const quantity = details.quantity;
+
+            await axios.post("http://localhost:40599/microservices/product-stock-update", {
+                operation: "update",
+                productId: Number(productId),
+                amountPurchased: Number(quantity)
+            });
+            console.log("Updated stock for ${productId}");
+        }
+
+        console.log("Stock updated for all products!");
+    }
+    
     const [hideShipping, setHideShipping] = useState(false)
-  
     const handleCheckboxChange = (e) => {
         setHideShipping(e.target.checked)
     }
@@ -209,7 +224,7 @@ const Checkout = ({ shoppingCart, cartTotal, setOnConfirmationScreen }) => {
                 </div>
                 )}
             </form>
-            <Link className="bg-sky-500/90 text-white font-semibold px-4 py-2 rounded-md my-4 text-center hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow" to="/checkout/confirmation" onClick={setOnConfirmationScreen}>Place order</Link>
+            <Link className="bg-sky-500/90 text-white font-semibold px-4 py-2 rounded-md my-4 text-center hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow" to="/checkout/confirmation" onClick={() => {setOnConfirmationScreen(true); handleStockUpdate();}}>Place order</Link>
         </div>
         <div className="w-1/2 bg-gray-100 shadow-lg mx-4 p-8 rounded-lg">
             {Object.entries(shoppingCart).map(([productId, product]) => (
