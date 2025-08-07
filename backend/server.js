@@ -16,11 +16,11 @@ app.get("/microservices/product-stock/:productId", async (req, res) => {
         await socket.send(JSON.stringify({ operation: "read", productId }))
         const [message] = await socket.receive()
         const parsedMessage = JSON.parse(message.toString())
-        res.json(parsedMessage)
+        res.status(200).json(parsedMessage)
     }
     catch (error) {
         console.error("Error in product-stock microservice call:", error)
-        res.status(500).json({ error: "Failed to retrieve stock" })
+        res.status(500).json({ error })
     }
     finally {
         await socket.close()
@@ -36,11 +36,11 @@ app.post("/microservices/product-stock-update", async (req, res) => {
         await socket.send(JSON.stringify({ operation, productId, amountPurchased }))
         const [message] = await socket.receive()
         const parsedMessage = JSON.parse(message.toString())
-        res.json(parsedMessage)
+        res.status(200).json(parsedMessage)
     }
     catch (error) {
         console.error("Error in product-stock-update microservice call:", error)
-        res.status(500).json({ error: "Failed to update stock" })
+        res.status(500).json({ error })
     }
     finally {
         await socket.close()

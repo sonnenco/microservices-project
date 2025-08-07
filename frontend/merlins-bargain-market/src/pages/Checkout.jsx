@@ -6,6 +6,48 @@ import axios from "axios"
 import CheckoutItemCard from "../components/CheckoutItemCard"
 
 const Checkout = ({ shoppingCart, cartTotal, setOnConfirmationScreen }) => {
+    const [state, setState] = useState(null)
+    const [taxAmount, setTaxAmount] = useState(0.00)
+    
+    const handleStateChange = async (event) => {
+        const newState = event.target.value
+        setState(newState)
+        getTaxAmount(newState)
+    }
+
+    const getTaxAmount = async (state) => {
+        try {
+            const subtotal = Number(parseFloat(cartTotal).toFixed(2))
+            const response = await fetch("http://localhost:40699/calculatetax", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ "state": state, "subtotal": subtotal })
+            })
+
+            console.log("state:", state)
+            console.log("subtotal:", subtotal)
+
+            if (!response.ok) {
+                throw new Error (`Error: ${response.status}`)
+            }
+            
+            const result = await response.json()
+            const value = result.tax_amount
+
+            if (value !== undefined) {
+                setTaxAmount(value)
+                console.log("Successfully set value:", value)
+            }
+            else {
+                console.log("Did not find 'tax_amount' in response")
+            }
+            
+        }
+        catch (error) {
+            console.error(error)
+        }
+    }
+    
     const handleStockUpdate = async () => {
         for (const [productId, details] of Object.entries(shoppingCart)) {
             const quantity = details.quantity;
@@ -75,7 +117,7 @@ const Checkout = ({ shoppingCart, cartTotal, setOnConfirmationScreen }) => {
                         type="text"
                         placeholder="City"
                     />
-                    <select className="bg-white border rounded-lg h-10 pl-3 w-full mb-4 my-2 w-1/2 mr-2">
+                    <select className="bg-white border rounded-lg h-10 pl-3 w-full mb-4 my-2 w-1/2 mr-2" value={state} onChange={handleStateChange}>
                         <option value="" disabled selected>State</option>
                         <option value="AK">Alaska</option>
                         <option value="AZ">Arizona</option>
@@ -231,7 +273,20 @@ const Checkout = ({ shoppingCart, cartTotal, setOnConfirmationScreen }) => {
                 <CheckoutItemCard key={productId} product={product}/>
             ))}
             <div className="border w-full"/>
-            <div className="my-10 text-xl font-bold w-full text-center">Order Total: ${cartTotal.toFixed(2)}</div>
+            <div className="flex flex-col space-y-4 my-4">
+                <div className="flex flex-row justify-between">
+                    <div className="text-xl font-bold text-left">Order Subtotal:</div>
+                    <div className="text-xl text-left">${cartTotal.toFixed(2)}</div>
+                </div>
+                <div className="flex flex-row justify-between">
+                    <div className="text-xl font-bold text-left">Order Tax:</div>
+                    <div className="text-xl text-left">${taxAmount.toFixed(2)}</div>
+                </div>
+                <div className="flex flex-row justify-between">
+                    <div className="text-xl font-bold text-left">Order Total:</div>
+                    <div className="text-xl text-left">${(cartTotal + taxAmount).toFixed(2)}</div>
+                </div>
+            </div>
         </div>
     </div>
   )
