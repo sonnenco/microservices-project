@@ -7,10 +7,29 @@ app.use(cors())
 app.use(express.json())
 const port = 40599
 
-app.post("/microservices/discount-code", async (req, res) => {
+app.get("/microservices/product-returns/:productId", async (req, res) => {
+    const productId = req.params.productId
+    const socket = new zmq.Request()
+    
+    try {
+        await socket.connect("tcp://localhost:40999")
+        await socket.send(JSON.stringify({ "productId": productId }))
+        const [message] = await socket.receive()
+        const parsedMessage = JSON.parse(message.toString())
+        res.status(200).json(parsedMessage)
+    }
+    catch (error) {
+        console.error("Error in product-returns microservice call:", error)
+        res.status(500).json({ error })
+    }
+    finally {
+        await socket.close()
+    }
+})
+
+app.post("/microservices/discount-code/:productId", async (req, res) => {
     const discountCode = req.body.discountCode
     const socket = new zmq.Request()
-    console.log("discountCode from body:", discountCode)
     
     try {
         await socket.connect("tcp://localhost:40899")

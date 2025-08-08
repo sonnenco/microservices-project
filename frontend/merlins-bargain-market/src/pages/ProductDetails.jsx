@@ -8,26 +8,40 @@ const ProductDetails = ({ handleAddToShoppingCart }) => {
     const location = useLocation()
     const { product } = location.state
 
-    // Load product stock data from microservice
+    // Load product stock data and returns policy data from microservices
     const [stock, setStock] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [returnPolicy, setReturnPolicy] = useState(null)
 
     useEffect(() => {
         const readStock = async () => {
-        try {
-            const response = await axios.get(`http://localhost:40599/microservices/product-stock/${product.id}`)
-            console.log("response: ", response)
-            setStock(response.data)
+            try {
+                const response = await axios.get(`http://localhost:40599/microservices/product-stock/${product.id}`)
+                setStock(response.data)
+            }
+            catch (error) {
+                console.error("Failed to retrieve product stock:", error)
+                setStock("N/A")
+            }
+            finally {
+                setLoading(false)
+            }
         }
-        catch (error) {
-            console.error("Failed to retrieve product stock:", error)
-            setStock("N/A")
-        }
-        finally {
-            setLoading(false)
-        }
-        }
+        
         readStock()
+        
+        const getReturnPolicy = async () => {
+            try {
+                const response = await axios.get(`http://localhost:40599/microservices/product-returns/${product.id}`)
+                setReturnPolicy(response.data)
+            }
+            catch (error) {
+                console.error("Failed to retrieve product return policy:", error)
+                setReturnPolicy("N/A")
+            }
+        }
+
+        getReturnPolicy()
     }, [product.id])
 
     return (
@@ -44,8 +58,9 @@ const ProductDetails = ({ handleAddToShoppingCart }) => {
             <div className="w-auto mt-8 lg:mt-0 space-y-6 lg:w-1/2">
                 <div className="text-4xl font-semibold">{product.name}</div>
                 <div className="text-2xl">${product.price}</div>
-                <div className="text-xl">{product.category}</div>
+                <div className="text-xl">Category: {product.category}</div>
                 <div className="text-xl">Stock: {stock === null ? "Loading..." : stock}</div>
+                <div className="text-xl">Returns: {returnPolicy === null ? "Loading..." : returnPolicy}</div>
                 <div className="text-lg space-y-4">
                     <div>{product.description}</div>
                     <div className="italic">Disclaimer: {product.disclaimer}</div>

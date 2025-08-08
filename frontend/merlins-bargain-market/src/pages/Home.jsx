@@ -16,6 +16,14 @@ const Home = () => {
             <li>5. Checkout</li>
             <li>6. Receive order confirmation</li>
           </ol>
+          <br />
+          <div className="underline font-bold space-y-2">Technologies</div>
+          <div>- Frontend (React/Tailwind CSS)</div>
+          <div>- Backend (Express.js, ZeroMQ)</div>
+          <div>- Microservice A: Order Tax Calculator</div>
+          <div>- Microservice B: Product Inventory Tracker</div>
+          <div>- Microservice C: Discount Code Validator</div>
+          <div>- Microservice D: Product Returns Policy Tracker</div>
         </div>
 
         {/* Right side */}
