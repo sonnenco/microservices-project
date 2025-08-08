@@ -19,23 +19,17 @@ const Checkout = ({ shoppingCart, cartTotal, setCartTotal, setOnConfirmationScre
 
     const handleDiscountCodeSubmit = async () => {
         try {
-            const response = await fetch("http://localhost:40599/microservices/discount-code", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ discountCode: discountCode })
+            console.log(discountCode)
+            const response = await axios.post("http://localhost:40599/microservices/discount-code", {
+                discountCode: discountCode
             })
-
-            if (!response.ok) {
-                throw new Error (`Error: ${response.status}`)
-            }
             
-            const result = await response.json()
+            const result = response.data
 
             if (typeof result === "number") {
+                const newCartTotal = cartTotal * result
                 setCartTotalBeforeDiscount(cartTotal)
                 setUsedDiscountCode(true)
-
-                const newCartTotal = cartTotal * result
                 setCartTotal(newCartTotal)
 
                 alert("Valid discount code used. Order subtotal has been updated.")

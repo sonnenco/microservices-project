@@ -27,9 +27,10 @@ app.get("/microservices/product-returns/:productId", async (req, res) => {
     }
 })
 
-app.post("/microservices/discount-code/:productId", async (req, res) => {
+app.post("/microservices/discount-code", async (req, res) => {
     const discountCode = req.body.discountCode
     const socket = new zmq.Request()
+    console.log(discountCode)
     
     try {
         await socket.connect("tcp://localhost:40899")
