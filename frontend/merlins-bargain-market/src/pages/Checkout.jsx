@@ -5,10 +5,58 @@ import axios from "axios"
 // Import components
 import CheckoutItemCard from "../components/CheckoutItemCard"
 
-const Checkout = ({ shoppingCart, cartTotal, setOnConfirmationScreen }) => {
+const Checkout = ({ shoppingCart, cartTotal, setCartTotal, setOnConfirmationScreen }) => {
     const [state, setState] = useState(null)
     const [taxAmount, setTaxAmount] = useState(0.00)
-    
+    const [hideShipping, setHideShipping] = useState(false)
+    const [discountCode, setDiscountCode] = useState("")
+    const [usedDiscountCode, setUsedDiscountCode] = useState(false)
+    const [cartTotalBeforeDiscount, setCartTotalBeforeDiscount] = useState(0)
+
+    const handleDiscountCodeChange = (event) => {
+        setDiscountCode(event.target.value)
+    }
+
+    const handleDiscountCodeSubmit = async () => {
+        try {
+            const response = await fetch("http://localhost:40599/microservices/discount-code", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ discountCode: discountCode })
+            })
+
+            if (!response.ok) {
+                throw new Error (`Error: ${response.status}`)
+            }
+            
+            const result = await response.json()
+
+            if (typeof result === "number") {
+                setCartTotalBeforeDiscount(cartTotal)
+                setUsedDiscountCode(true)
+
+                const newCartTotal = cartTotal * result
+                setCartTotal(newCartTotal)
+
+                alert("Valid discount code used. Order subtotal has been updated.")
+            }
+            else {
+                alert("Invalid discount code used.  Please try again.")
+            }
+            
+        }
+        catch (error) {
+            console.error(error)
+        }
+    }
+
+    const handleDiscountCodeRemove = async () => {
+        setCartTotal(cartTotalBeforeDiscount)
+        setUsedDiscountCode(false)
+        setDiscountCode("")
+        alert("Removed discount code from order.")
+    }
+
     const handleStateChange = async (event) => {
         const newState = event.target.value
         setState(newState)
@@ -23,9 +71,6 @@ const Checkout = ({ shoppingCart, cartTotal, setOnConfirmationScreen }) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ "state": state, "subtotal": subtotal })
             })
-
-            console.log("state:", state)
-            console.log("subtotal:", subtotal)
 
             if (!response.ok) {
                 throw new Error (`Error: ${response.status}`)
@@ -57,23 +102,25 @@ const Checkout = ({ shoppingCart, cartTotal, setOnConfirmationScreen }) => {
                 productId: Number(productId),
                 amountPurchased: Number(quantity)
             });
-            console.log("Updated stock for ${productId}");
+            console.log(`Updated stock for productId #${productId}`);
         }
 
         console.log("Stock updated for all products!");
     }
     
-    const [hideShipping, setHideShipping] = useState(false)
     const handleCheckboxChange = (e) => {
         setHideShipping(e.target.checked)
     }
 
     return (
-    <div className="flex flex-row my-10">
-        <Link className="flex items-center justify-center h-10 w-10 rounded-full object-center px-4 py-2 bg-sky-500/90 text-white font-semibold hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow" to="/cart">
+    <div className="flex flex-col space-y-6 my-10 lg:flex-row">
+        <Link
+            className="order-1 flex items-center justify-center h-10 w-10 rounded-full object-center mx-4 lg:mx-0 px-4 py-2 bg-sky-500/90 text-white font-semibold hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow"
+            to="/cart"
+        >
             <span className="text-2xl">←</span>
         </Link>
-        <div className="flex flex-col w-1/2 bg-gray-100 shadow-lg mx-4 p-8 rounded-lg">
+        <div className="order-3 lg:order-2 mt-8 lg:mt-0 flex flex-col w-auto lg:w-1/2 bg-gray-100 shadow-lg mx-4 p-8 rounded-lg">
             <div className="mb-4 italic">
                 Disclaimer: Payment details are not retained, validated or charged as this is a project for a university course.  It is not a requirement to input payment, billing or shipping details on this page to proceed.
             </div>
@@ -266,14 +313,49 @@ const Checkout = ({ shoppingCart, cartTotal, setOnConfirmationScreen }) => {
                 </div>
                 )}
             </form>
-            <Link className="bg-sky-500/90 text-white font-semibold px-4 py-2 rounded-md my-4 text-center hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow" to="/checkout/confirmation" onClick={() => {setOnConfirmationScreen(true); handleStockUpdate();}}>Place order</Link>
+            <Link 
+                className="bg-sky-500/90 h-10 text-white font-semibold px-4 py-2 rounded-md mt-4 text-center hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow"
+                to="/checkout/confirmation"
+                onClick={() => {setOnConfirmationScreen(true); handleStockUpdate();}}
+            >
+                Place order
+            </Link>
         </div>
-        <div className="w-1/2 bg-gray-100 shadow-lg mx-4 p-8 rounded-lg">
+        <div className="order-2 lg:order-3 w-auto lg:w-1/2 bg-gray-100 shadow-lg mx-4 p-8 rounded-lg h-1/2">
             {Object.entries(shoppingCart).map(([productId, product]) => (
                 <CheckoutItemCard key={productId} product={product}/>
             ))}
             <div className="border w-full"/>
-            <div className="flex flex-col space-y-4 my-4">
+            <div className="flex flex-col space-y-6 mt-10">
+                    { !usedDiscountCode && (
+                        <div className="flex justify-between">
+                            <input
+                                className="bg-white border rounded-lg h-10 pl-3 w-full mb-4 mr-2"
+                                type="text"
+                                placeholder="Enter discount code..."
+                                value={discountCode}
+                                onChange={handleDiscountCodeChange}
+                            />
+                            <button
+                                className="bg-sky-500/90 h-10 text-white font-semibold px-4 rounded-md text-center hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow"
+                                onClick={handleDiscountCodeSubmit}
+                            >
+                                Submit
+                            </button>
+                        </div>
+                    )}
+                    { usedDiscountCode && (
+                        <div className="flex justify-between items-center">
+                            <div className="font-bold text-lg">Discount code applied:<br/>{discountCode}</div>
+                            <button
+                                className="bg-sky-500/90 h-10 text-white font-semibold px-4 rounded-md text-center hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow"
+                                onClick={handleDiscountCodeRemove}
+                            >
+                                Remove discount
+                            </button>
+                        </div>
+                    )}
+                <div className="border w-full"/>
                 <div className="flex flex-row justify-between">
                     <div className="text-xl font-bold text-left">Order Subtotal:</div>
                     <div className="text-xl text-left">${cartTotal.toFixed(2)}</div>

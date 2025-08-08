@@ -31,14 +31,17 @@ const ProductDetails = ({ handleAddToShoppingCart }) => {
     }, [product.id])
 
     return (
-        <div className="flex flex-col my-10 items-center md:flex-row">
-            <div className="w-auto space-y-6 md:w-1/2">
-                <Link className="flex items-center justify-center w-12 rounded-full object-center px-4 py-2 bg-sky-500/90 text-white font-semibold hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow" to="/products">
+        <div className="flex flex-col my-10 mx-4 lg:mx-0 lg:flex-row space-between">
+            <div className="flex flex-col w-auto space-y-6 space-x-4 lg:w-1/2 lg:flex-row">
+                <Link 
+                    className="flex items-center justify-center h-12 w-12 rounded-full object-center px-4 py-2 bg-sky-500/90 text-white font-semibold hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow"
+                    to="/products"
+                >
                     <span className="text-2xl">←</span>
                 </Link>
-                <img src={product.image} className="h-130 w-130 object-cover rounded"/>
+                <img src={product.image} className="w-auto max-h-150 lg:max-w-100 xl:max-w-120 object-contain rounded"/>
             </div>
-            <div className="w-auto md:ml-8 mt-8 px-4 md:mt-0 space-y-6 md:w-1/2">
+            <div className="w-auto mt-8 lg:mt-0 space-y-6 lg:w-1/2">
                 <div className="text-4xl font-semibold">{product.name}</div>
                 <div className="text-2xl">${product.price}</div>
                 <div className="text-xl">{product.category}</div>

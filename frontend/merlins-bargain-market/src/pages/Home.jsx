@@ -1,9 +1,9 @@
 const Home = () => {
   return (
     <div>
-      <div className="flex flex-row my-30 md:mx-10 lg:mx-20">
+      <div className="flex flex-col lg:flex-row my-10 space-y-10 lg:my-30 md:mx-10 lg:mx-20">
         {/* Left side */}
-        <div className="w-1/2 px-4">
+        <div className="lg:w-1/2 px-4">
           <div className="underline font-bold">Overview</div>
           <div>Merlin's Bargain Market is a tongue-in-cheeck project developed by Colin Sonnenberg for CS 361 at Oregon State University.</div>
           <br />
@@ -19,7 +19,7 @@ const Home = () => {
         </div>
 
         {/* Right side */}
-        <div className="w-1/2 px-4">
+        <div className="lg:w-1/2 px-4">
           <div className="underline font-bold">Citations</div>
           <div>Icons used in this project are unicode hex characters and therefore do not require attribution.</div>
           <br />

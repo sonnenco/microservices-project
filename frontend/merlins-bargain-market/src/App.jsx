@@ -71,7 +71,7 @@ function App() {
           />
           <Route
             path="/checkout"
-            element={<Checkout shoppingCart={shoppingCart} cartTotal={cartTotal} setOnConfirmationScreen={setOnConfirmationScreen}/>}
+            element={<Checkout shoppingCart={shoppingCart} cartTotal={cartTotal} setCartTotal={setCartTotal} setOnConfirmationScreen={setOnConfirmationScreen}/>}
           />
           <Route
             path="/checkout/confirmation"
