@@ -162,7 +162,7 @@ const Products = ({ handleAddToShoppingCart }) => {
           />
           <div className="grid grid-cols-2 md:grid-cols-3 w-full gap-4">
             {filteredProducts.map((product) => (
-              <ProductCard product={product} onClick={() => handleCardClick(product)} handleAddToShoppingCart={handleAddToShoppingCart}/>
+              <ProductCard key={product.id} product={product} onClick={() => handleCardClick(product)} handleAddToShoppingCart={handleAddToShoppingCart}/>
             ))}
           </div>
         </div>

@@ -3,7 +3,7 @@ import axios from "axios"
 
 const CartItemCard = ({ product, incrementQuantity, decrementQuantity, handleDeleteFromShoppingCart }) => {
     // Load product stock data from microservice
-    const [stock, setStock] = useState(null)
+    const [stock, setStock] = useState("")
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -30,7 +30,7 @@ const CartItemCard = ({ product, incrementQuantity, decrementQuantity, handleDel
                 <img src={product.image} className="w-30 h-30 object-cover rounded-lg"/>
                 <div className="flex flex-1 items-center justify-center px-3">{product.name}</div>
                 <div className="flex flex-1 items-center justify-center px-3">${product.price}</div>
-                <div className="flex flex-1 items-center justify-center px-3">Stock: {stock === null ? "Loading..." : stock}</div>
+                <div className="flex flex-1 items-center justify-center px-3">Stock: {stock === "" ? "Loading..." : stock}</div>
                 <div className="flex py-1 bg-gray-300 place-content-between text-md space-x-4 px-3" onClick={(e) => { e.stopPropagation() }}>
                     <button className="" type="button" onClick={(e) => { e.stopPropagation(); if (product.quantity > 1) {decrementQuantity(product)}; }}>-</button>
                     <span className="">{product.quantity}</span>

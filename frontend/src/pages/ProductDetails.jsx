@@ -12,9 +12,9 @@ const ProductDetails = ({ handleAddToShoppingCart }) => {
     const { product } = location.state
 
     // Establish state to be used throughout application components
-    const [stock, setStock] = useState(null)
+    const [stock, setStock] = useState("")
     const [loading, setLoading] = useState(true)
-    const [returnPolicy, setReturnPolicy] = useState(null)
+    const [returnPolicy, setReturnPolicy] = useState("")
 
     useEffect(() => {
         const readStock = async () => {
@@ -65,8 +65,8 @@ const ProductDetails = ({ handleAddToShoppingCart }) => {
                 <div className="text-4xl font-semibold">{product.name}</div>
                 <div className="text-2xl">${product.price}</div>
                 <div className="text-xl">Category: {product.category}</div>
-                <div className="text-xl">Stock: {stock === null ? "Loading..." : stock}</div>
-                <div className="text-xl">Returns: {returnPolicy === null ? "Loading..." : returnPolicy}</div>
+                <div className="text-xl">Stock: {stock === "" ? "Loading..." : stock}</div>
+                <div className="text-xl">Returns: {returnPolicy === "" ? "Loading..." : returnPolicy}</div>
                 <div className="text-lg space-y-4">
                     <div>{product.description}</div>
                     <div className="italic">Disclaimer: {product.disclaimer}</div>

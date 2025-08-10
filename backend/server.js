@@ -7,6 +7,30 @@ app.use(cors())
 app.use(express.json())
 const port = 40599
 
+// Microservice A
+app.post("/microservices/calculate-tax", async (req, res) => {
+    const { state, subtotal } = req.body
+    
+    try {
+        const response = await fetch("http://localhost:40699/calculatetax", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ state, subtotal })
+        })
+
+        if (!response.ok) {
+            throw new Error(`Tax service responded with status ${response.status}`)
+        }
+
+        const data = await response.json()
+        res.status(200).json(data)
+    } catch (error) {
+        console.error("Error calling tax service:", error)
+        res.status(500).json({ error: "Failed to calculate tax" })
+    }
+})
+
+// Microservice B
 app.get("/microservices/product-returns/:productId", async (req, res) => {
     const productId = req.params.productId
     const socket = new zmq.Request()
@@ -27,6 +51,7 @@ app.get("/microservices/product-returns/:productId", async (req, res) => {
     }
 })
 
+// Microservice C
 app.post("/microservices/discount-code", async (req, res) => {
     const discountCode = req.body.discountCode
     const socket = new zmq.Request()
@@ -49,6 +74,7 @@ app.post("/microservices/discount-code", async (req, res) => {
     }
 })
 
+// Microservice D
 app.get("/microservices/product-stock/:productId", async (req, res) => {
     const productId = req.params.productId
     const socket = new zmq.Request()
@@ -89,6 +115,7 @@ app.post("/microservices/product-stock-update", async (req, res) => {
     }
 })
 
+// Listening for requests
 app.listen(port, () => {
     console.log("Backend server is listening on port 40599...")
 })

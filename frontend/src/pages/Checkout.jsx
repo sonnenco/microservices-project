@@ -8,7 +8,7 @@ import CheckoutItemCard from "../components/CheckoutItemCard"
 const Checkout = ({ shoppingCart, cartTotal, setCartTotal, setOnConfirmationScreen }) => {
     
     // Establish state to be used throughout application components
-    const [state, setState] = useState(null)
+    const [state, setState] = useState("")
     const [taxAmount, setTaxAmount] = useState(0.00)
     const [hideShipping, setHideShipping] = useState(false)
     const [discountCode, setDiscountCode] = useState("")
@@ -16,10 +16,11 @@ const Checkout = ({ shoppingCart, cartTotal, setCartTotal, setOnConfirmationScre
     const [cartTotalBeforeDiscount, setCartTotalBeforeDiscount] = useState(0)
 
     // Establish US states data to be used in billing and shipping areas
-    const statesData = [ 'AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 
-        'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 
-        'NM', 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 'VA', 
-        'WA', 'WV', 'WI', 'WY' ]
+    const statesData = [ 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
+        'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
+        'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
+        'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
+        'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
 
     // Establish handler functions for events
     const handleDiscountCodeChange = (event) => {
@@ -69,30 +70,29 @@ const Checkout = ({ shoppingCart, cartTotal, setCartTotal, setOnConfirmationScre
     const getTaxAmount = async (state) => {
         try {
             const subtotal = Number(parseFloat(cartTotal).toFixed(2))
-            const response = await fetch("http://localhost:40699/calculatetax", {
+            const response = await fetch("http://localhost:40599/microservices/calculate-tax", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ "state": state, "subtotal": subtotal })
+                body: JSON.stringify({ state, subtotal })
             })
 
             if (!response.ok) {
-                throw new Error (`Error: ${response.status}`)
+                throw new Error(`Error: ${response.status}`)
             }
-            
+
             const result = await response.json()
             const value = result.tax_amount
 
             if (value !== undefined) {
                 setTaxAmount(value)
                 console.log("Successfully set value:", value)
-            }
-            else {
+            } else {
                 console.log("Did not find 'tax_amount' in response")
             }
-            
+
         }
         catch (error) {
-            console.error(error)
+            console.error("Failed to get tax amount:", error)
         }
     }
     
@@ -189,6 +189,7 @@ const Checkout = ({ shoppingCart, cartTotal, setCartTotal, setOnConfirmationScre
                         <select
                             className="bg-white border rounded-lg h-10 pl-3 w-full mb-4 my-2 w-1/2 mr-2"
                             onChange={handleStateChange}
+                            value={state}
                             defaultValue=""
                         >
                             <option value="" disabled hidden>
