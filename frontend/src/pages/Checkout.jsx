@@ -276,7 +276,7 @@ const Checkout = ({ shoppingCart, cartTotal, setCartTotal, setOnConfirmationScre
                 <Link 
                     className="bg-sky-500/90 h-10 text-white font-semibold px-4 py-2 rounded-md mt-4 text-center hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow"
                     to="/checkout/confirmation"
-                    onClick={() => {setOnConfirmationScreen(true); handleStockUpdate();}}
+                    onClick={() => {setOnConfirmationScreen(true); handleStockUpdate(); setCartTotal(prevAmount => prevAmount + taxAmount);}}
                 >
                     Place order
                 </Link>
