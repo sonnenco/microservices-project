@@ -1,0 +1,80 @@
+import { Link, useLocation } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+
+// Import components
+import AddToCart from '../components/AddToCart'
+
+const ProductDetails = ({ handleAddToShoppingCart }) => {
+    
+    // Receive product data from Product.jsx
+    const location = useLocation()
+    const { product } = location.state
+
+    // Establish state to be used throughout application components
+    const [stock, setStock] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [returnPolicy, setReturnPolicy] = useState(null)
+
+    useEffect(() => {
+        const readStock = async () => {
+            try {
+                const response = await axios.get(`http://localhost:40599/microservices/product-stock/${product.id}`)
+                setStock(response.data)
+            }
+            catch (error) {
+                console.error("Failed to retrieve product stock:", error)
+                setStock("N/A")
+            }
+            finally {
+                setLoading(false)
+            }
+        }
+        readStock()
+        
+        const getReturnPolicy = async () => {
+            try {
+                const response = await axios.get(`http://localhost:40599/microservices/product-returns/${product.id}`)
+                setReturnPolicy(response.data)
+            }
+            catch (error) {
+                console.error("Failed to retrieve product return policy:", error)
+                setReturnPolicy("N/A")
+            }
+        }
+
+        getReturnPolicy()
+    }, [product.id])
+
+    return (
+        <div className="flex flex-col my-10 mx-4 lg:mx-0 lg:flex-row space-between">
+            
+            {/* Product image and back button */}
+            <div className="flex flex-col w-auto space-y-6 space-x-4 lg:w-1/2 lg:flex-row">
+                <Link 
+                    className="flex items-center justify-center h-12 w-12 rounded-full object-center px-4 py-2 bg-sky-500/90 text-white font-semibold hover:bg-sky-100/90 hover:text-sky-500/90 transition shadow"
+                    to="/products"
+                >
+                    <span className="text-2xl">←</span>
+                </Link>
+                <img src={product.image} className="w-auto max-h-150 lg:max-w-100 xl:max-w-120 object-contain rounded"/>
+            </div>
+            
+            {/* Product details */}
+            <div className="w-auto mt-8 lg:mt-0 space-y-6 lg:w-1/2">
+                <div className="text-4xl font-semibold">{product.name}</div>
+                <div className="text-2xl">${product.price}</div>
+                <div className="text-xl">Category: {product.category}</div>
+                <div className="text-xl">Stock: {stock === null ? "Loading..." : stock}</div>
+                <div className="text-xl">Returns: {returnPolicy === null ? "Loading..." : returnPolicy}</div>
+                <div className="text-lg space-y-4">
+                    <div>{product.description}</div>
+                    <div className="italic">Disclaimer: {product.disclaimer}</div>
+                </div>
+                <AddToCart product={product} handleAddToShoppingCart={handleAddToShoppingCart} stock={stock}/>
+            </div>
+        </div>
+    )
+}
+
+export default ProductDetails
