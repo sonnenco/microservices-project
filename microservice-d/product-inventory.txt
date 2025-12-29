@@ -1,0 +1,26 @@
+[
+  {
+    "productId": 1,
+    "productStock": 10
+  },
+  {
+    "productId": 2,
+    "productStock": 10
+  },
+  {
+    "productId": 3,
+    "productStock": 10
+  },
+  {
+    "productId": 4,
+    "productStock": 10
+  },
+  {
+    "productId": 5,
+    "productStock": 10
+  },
+  {
+    "productId": 6,
+    "productStock": 10
+  }
+]

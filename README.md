@@ -65,6 +65,7 @@ A fictional e-commerce site where users can browse Merlin's magical product cata
 ```bash
 cd frontend
 npm install react react-dom react-router-dom tailwindcss axios
+npm run preview
 ```
 
 ### Backend
@@ -72,15 +73,17 @@ npm install react react-dom react-router-dom tailwindcss axios
 ```bash
 cd backend
 npm install cors express zeromq
+npm run start
 ```
 
 ### Microservice A
 ```bash
 cd microservice-a
 git clone https://github.com/Joanna324/tax-rate-microservice.git
+cd tax-rate-microservice
 node index.js
 
-NOTE: Update index.js PORT to 40699 before starting
+NOTE: Update index.js PORT to 40699 before starting up
 ```
 
 ### Microservice B

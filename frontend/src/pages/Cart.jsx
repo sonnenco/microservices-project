@@ -50,7 +50,7 @@ const Cart = ({ shoppingCart, setShoppingCart, handleDeleteFromShoppingCart, han
         
         {/* Cart summary and proceed to checkout */}
         <div className="flex flex-col w-auto lg:w-3/10 bg-gray-100 rounded-lg items-center lg:ml-10 px-6 py-10 space-y-10 max-h-150 shadow-lg">
-          <div className="text-xl font-bold">Order Total: ${cartTotal.toFixed(2)}</div>
+          <div className="text-xl font-bold">Order Subtotal: ${cartTotal.toFixed(2)}</div>
           <div className="border w-full"/>
           <div>"Shipping is free - my enchanted parcels will fly straight to your delivery address!" - Merlin</div>
           <div className="italic">Disclaimer: Merlin's Bargain Market does not offer refunds based on the shipment's arrived condition.  Enchanted shipments are known to fly through storms and tears in the space-time-continuum.</div>

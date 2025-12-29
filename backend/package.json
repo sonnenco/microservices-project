@@ -12,7 +12,7 @@
   "description": "",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^5.1.0",
+    "express": "^5.2.1",
     "zeromq": "^6.5.0"
   }
 }
